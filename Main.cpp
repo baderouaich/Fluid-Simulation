@@ -1,4 +1,4 @@
-#include "FluidSimulation.h"
+#include "FluidSimulation/FluidSimulation.h"
 
 constexpr const auto TITLE = "Fluid Simulation";
 constexpr const auto WINDOW_WIDTH = N * SCALE;

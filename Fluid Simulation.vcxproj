@@ -146,12 +146,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\olcPixelGameEngine.cpp" />
-    <ClCompile Include="FluidSimulation.cpp" />
+    <ClCompile Include="Fluid\Fluid.cpp" />
+    <ClCompile Include="FluidSimulation\FluidSimulation.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Engine\olcPixelGameEngine.h" />
-    <ClInclude Include="FluidSimulation.h" />
+    <ClInclude Include="Fluid\Fluid.h" />
+    <ClInclude Include="FluidSimulation\FluidSimulation.h" />
     <ClInclude Include="Utility\Random.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
