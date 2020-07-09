@@ -8,20 +8,23 @@
 
 #define PI 3.14159265358979323846f
 
-constexpr const int N = 128; // Width & Height of square window (width, height)
+
+constexpr const int N = 128; // 120 // Width & Height of square window (width, height)
 constexpr const int ITERATIONS = 16; // Number of iterations
-constexpr const int SCALE = 4;
+constexpr const int SCALE = 3; // 4
 
 constexpr const float VESCOSITY = 0.0000001f;
 constexpr const float DIFFUSION = 0.0f;
 constexpr const float MOTION_SPEED = 0.2f;
 
 
-static const olc::Pixel CLEAR_COLOR = olc::GREY;
-static const olc::Pixel FLUID_COLOR = olc::DARK_CYAN;
+static const olc::Pixel CLEAR_COLOR = olc::WHITE;
+static const olc::Pixel FLUID_COLOR = olc::CYAN;
 
+//Set Both to 0 if you want velocity to flow
+//Manipulate velocity direction
 constexpr const float VELOCITY_X = 0.0f; // no velocity applied in left or right side
-constexpr const float VELOCITY_Y = +0.5f; // +y to apply velocity to bottom and simulate fluid fall
+constexpr const float VELOCITY_Y = 0.0f; // +y to apply velocity to bottom and simulate fluid fall
 
 
 
