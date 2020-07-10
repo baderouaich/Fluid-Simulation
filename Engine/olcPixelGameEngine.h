@@ -1,3 +1,180 @@
+/*
+	olcPixelGameEngine.h
+
+	+-------------------------------------------------------------+
+	|           OneLoneCoder Pixel Game Engine v1.20              |
+	| "Like the command prompt console one, but not..." - javidx9 |
+	+-------------------------------------------------------------+
+
+	What is this?
+	~~~~~~~~~~~~~
+	The olcConsoleGameEngine has been a surprising and wonderful success for me,
+	and I'm delighted how people have reacted so positively towards it, so thanks
+	for that.
+
+	However, there are limitations that I simply cannot avoid. Firstly, I need to
+	maintain several different versions of it to accommodate users on Windows7,
+	8, 10, Linux, Mac, Visual Studio & Code::Blocks. Secondly, this year I've been
+	pushing the console to the limits of its graphical capabilities	and the effect
+	is becoming underwhelming. The engine itself is not slow at all, but the process
+	that Windows uses to draw the command prompt to the screen is, and worse still,
+	it's dynamic based upon the variation of character colours and glyphs. Sadly
+	I have no control over this, and recent videos that are extremely graphical
+	(for a command prompt :P ) have been dipping to unacceptable framerates. As
+	the channel	has been popular with aspiring game developers, I'm concerned that
+	the visual appeal of the command prompt is perhaps limited to us oldies, and I
+	dont want to alienate younger learners. Finally, I'd like to demonstrate many
+	more algorithms and image processing that exist in the graphical domain, for
+	which the console is insufficient.
+
+	For this reason, I have created olcPixelGameEngine! The look and feel to the
+	programmer is almost identical, so all of my existing code from the videos is
+	easily portable, and the programmer uses this file in exactly the same way. But
+	I've decided that rather than just build a command prompt emulator,	that I
+	would at least harness some modern(ish) portable technologies.
+
+	As a result, the olcPixelGameEngine supports 32-bit colour, is written in a
+	cross-platform style, uses modern(ish) C++ conventions and most importantly,
+	renders much much faster. I	will use this version when my applications are
+	predominantly graphics based, but use the console version when they are
+	predominantly text based - Don't worry, loads more command prompt silliness to
+	come yet, but evolution is important!!
+
+	License (OLC-3)
+	~~~~~~~~~~~~~~~
+
+	Copyright 2018 - 2019 OneLoneCoder.com
+
+	Redistribution and use in source and binary forms, with or without modification,
+	are permitted provided that the following conditions are met:
+
+	1. Redistributions or derivations of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+
+	2. Redistributions or derivative works in binary form must reproduce the above
+	copyright notice. This list of conditions and the following	disclaimer must be
+	reproduced in the documentation and/or other materials provided with the distribution.
+
+	3. Neither the name of the copyright holder nor the names of its contributors may
+	be used to endorse or promote products derived from this software without specific
+	prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS	"AS IS" AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+	SHALL THE COPYRIGHT	HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL,	SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+	SUCH DAMAGE.
+
+	Links
+	~~~~~
+	YouTube:	https://www.youtube.com/javidx9
+				https://www.youtube.com/javidx9extra
+	Discord:	https://discord.gg/WhwHUMV
+	Twitter:	https://www.twitter.com/javidx9
+	Twitch:		https://www.twitch.tv/javidx9
+	GitHub:		https://www.github.com/onelonecoder
+	Homepage:	https://www.onelonecoder.com
+	Patreon:	https://www.patreon.com/javidx9
+
+	Relevant Videos
+	~~~~~~~~~~~~~~~
+	https://youtu.be/kRH6oJLFYxY Introducing olcPixelGameEngine
+
+	Compiling in Linux
+	~~~~~~~~~~~~~~~~~~
+	You will need a modern C++ compiler, so update yours!
+	To compile use the command:
+
+	g++ -o YourProgName YourSource.cpp -lX11 -lGL -lpthread -lpng
+
+	On some Linux configurations, the frame rate is locked to the refresh
+	rate of the monitor. This engine tries to unlock it but may not be
+	able to, in which case try launching your program like this:
+
+	vblank_mode=0 ./YourProgName
+
+
+	Compiling in Code::Blocks on Windows
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Well I wont judge you, but make sure your Code::Blocks installation
+	is really up to date - you may even consider updating your C++ toolchain
+	to use MinGW32-W64, so google this. You will also need to enable C++14
+	in your build options, and add to your linker the following libraries:
+	user32 gdi32 opengl32 gdiplus
+
+	Ports
+	~~~~~
+	olc::PixelGameEngine has been ported and tested with varying degrees of
+	success to: WinXP, Win7, Win8, Win10, Various Linux, Rapberry Pi,
+	Chromebook, Playstation Portable (PSP) and Nintendo Switch. If you are
+	interested in the details of these ports, come and visit the Discord!
+
+	Thanks
+	~~~~~~
+	I'd like to extend thanks to Eremiell, slavka, gurkanctn, Phantim,
+	JackOJC, KrossX, Huhlig, Dragoneye, Appa, JustinRichardsMusic, SliceNDice
+	Ralakus, Gorbit99, raoul, joshinils, benedani & MagetzUb for advice, ideas and
+	testing, and I'd like to extend my appreciation to the 101K YouTube followers,
+	52 Patreons and 4.6K Discord server	members who give me the motivation to keep
+	going with all this :D
+
+	Significant Contributors: @MaGetzUb, @slavka, @Dragoneye & @Gorbit99
+
+	Special thanks to those who bring gifts!
+	GnarGnarHead.......Domina
+	Gorbit99...........Bastion, Ori & The Blind Forest
+	Marti Morta........Gris
+
+	Special thanks to my Patreons too - I wont name you on here, but I've
+	certainly enjoyed my tea and flapjacks :D
+
+	Author
+	~~~~~~
+	David Barr, aka javidx9, �OneLoneCoder 2018, 2019
+*/
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/* Example Usage (main.cpp)
+	#define OLC_PGE_APPLICATION
+	#include "olcPixelGameEngine.h"
+	// Override base class with your custom functionality
+	class Example : public olc::PixelGameEngine
+	{
+	public:
+		Example()
+		{
+			sAppName = "Example";
+		}
+	public:
+		bool OnUserCreate() override
+		{
+			// Called once at the start, so create things here
+			return true;
+		}
+		bool OnUserUpdate(float fElapsedTime) override
+		{
+			// called once per frame, draws random coloured pixels
+			for (int x = 0; x < ScreenWidth(); x++)
+				for (int y = 0; y < ScreenHeight(); y++)
+					Draw(x, y, olc::Pixel(rand() % 255, rand() % 255, rand()% 255));
+			return true;
+		}
+	};
+	int main()
+	{
+		Example demo;
+		if (demo.Construct(256, 240, 4, 4))
+			demo.Start();
+		return 0;
+	}
+*/
+
 #ifndef OLC_PGE_DEF
 #define OLC_PGE_DEF
 
