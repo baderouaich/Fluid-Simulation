@@ -1,6 +1,5 @@
 #pragma once
 #include "../Constants.h"
-#include "../Utility/Random.hpp"
 #include "../Fluid/Fluid.h"
 
 
@@ -24,6 +23,6 @@ public:
 public:
 	virtual bool OnUserCreate() override;
 	virtual bool OnUserUpdate(float fElapsedTime) override;
-	virtual void OnUserInput(const float& dt);
+	virtual __forceinline void OnUserInput(const float& dt) noexcept;
 	virtual bool OnUserDestroy() override;
 };

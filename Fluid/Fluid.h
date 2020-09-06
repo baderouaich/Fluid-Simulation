@@ -3,7 +3,6 @@
 
 struct Fluid
 {
-	int size;
 	float dt;   // delta time (affects motion speed)
 	float diff; // diffusion amount (velocity of fluid)
 	float visc; // viscosity (thickness of fluit)
@@ -21,24 +20,22 @@ struct Fluid
 	Fluid(float dt, float diffusion, float viscosity);
 
 	//Update Fluid each frame
-	void Step();
+	void Step() noexcept;
 
 	// Adds density into a position
-	void AddDensity(int x, int y, float amount);
+	void AddDensity(int x, int y, float amount) noexcept;
 
 	// Adds velocity into a position
-	void AddVelocity(int x, int y, float amountX, float amountY);
+	void AddVelocity(int x, int y, float amountX, float amountY) noexcept;
 
 	/*
 	Diffuse is really simple; it just precalculates a value and passes everything off to LinearSolve.
 	So that means, while I know what it does, I don't really know how,
 	since all the work is in that mysterious function.
 	*/
-	//Speading out
-	void Diffuse(int b, float* x, float* x0, float diff, float dt);
+	__forceinline void Diffuse(int b, float* x, float* x0, float diff, float dt) noexcept;
 
 
-	// Solves linear equation (e.g: 2x + y = 3) 
 	/*
 	this function is mysterious, but it does some kind of solving.
 	this is done by running through the whole array and setting each
@@ -48,7 +45,7 @@ struct Fluid
 	four iterations are used. After each iteration, it resets the
 	boundaries so the calculations don't explode.
 	*/
-	void LinearSolve(int b, float* x, float* x0, float a, float c);
+	__forceinline void LinearSolve(int b, float* x, float* x0, float a, float c) noexcept;
 
 
 
@@ -78,9 +75,7 @@ struct Fluid
 
 	This function also sets corners. This is done very simply, by setting each corner cell equal to the average of its three neighbors.
 	*/
-	//Wraps Fluid & applies bouncing
-	//b param tells which wall is it right left..
-	void SetBoundary(int b, float* x);
+	__forceinline void SetBoundary(int b, float* x) noexcept;
 
 
 
@@ -91,7 +86,8 @@ struct Fluid
 	but it does some more running through the dataand setting values,
 	with some calls to LinearSolve thrown in for fun.
 	*/
-	void Project(float* velocX, float* velocY, float* p, float* div);
+	__forceinline void Project(float* velocX, float* velocY, float* p, float* div) noexcept;
+
 
 
 
@@ -104,8 +100,7 @@ struct Fluid
 	of the cells around the spot where it lands, then applies
 	that value to the current cell.
 	*/
-	//Motion associated with velocities
-	void Advect(int b, float* d, float* d0, float* velocX, float* velocY, float dt);
+	__forceinline void Advect(int b, float* d, float* d0, float* velocX, float* velocY, float dt) noexcept;
 
 
 
@@ -115,10 +110,12 @@ struct Fluid
 		for (int i = 0; i < N * N; ++i)
 		{
 			float d = density[i];
-			density[i] -= std::clamp(d - 0.1f, 0.0f, 255.0f);
+			density[i] -= ::Clamp(d - 0.1f, 0.0f, 255.0f);
 		}
 	}*/
-	
+
+
+	//Destructor
 	~Fluid();
 };
 

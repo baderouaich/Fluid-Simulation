@@ -6,8 +6,6 @@ Fluid::Fluid(float dt, float diffusion, float viscosity)
 	diff(diffusion),
 	visc(viscosity)
 {
-	size = N;
-
 	this->s = new float[N * N];
 	this->density = new float[N * N];
 
@@ -28,21 +26,8 @@ Fluid::Fluid(float dt, float diffusion, float viscosity)
 
 }
 
-void Fluid::Step()
+void Fluid::Step() noexcept
 {
-	/*float visc = this->visc;
-	float diff = this->diff;
-	float dt = this->dt;
-
-	float* Vx = this->Vx;
-	float* Vy = this->Vy;
-
-	float* Vx0 = this->Vx0;
-	float* Vy0 = this->Vy0;
-
-	float* s = this->s;
-	float* density = this->density;*/
-
 	Diffuse(1, Vx0, Vx, visc, dt);
 	Diffuse(2, Vy0, Vy, visc, dt);
 
@@ -57,13 +42,13 @@ void Fluid::Step()
 	Advect(0, density, s, Vx, Vy, dt);
 }
 
-void Fluid::AddDensity(int x, int y, float amount)
+void Fluid::AddDensity(int x, int y, float amount) noexcept
 {
 	int index = IX(x, y);
 	this->density[index] += amount;
 }
 
-void Fluid::AddVelocity(int x, int y, float amountX, float amountY)
+void Fluid::AddVelocity(int x, int y, float amountX, float amountY) noexcept
 {
 	int index = IX(x, y);
 
@@ -71,13 +56,13 @@ void Fluid::AddVelocity(int x, int y, float amountX, float amountY)
 	this->Vy[index] += amountY;
 }
 
-void Fluid::Diffuse(int b, float* x, float* x0, float diff, float dt)
+__forceinline void Fluid::Diffuse(int b, float* x, float* x0, float diff, float dt) noexcept
 {
 	float a = dt * diff * (N - 2) * (N - 2);
 	LinearSolve(b, x, x0, a, 1 + SCALE * a);
 }
 
-void Fluid::LinearSolve(int b, float* x, float* x0, float a, float c)
+__forceinline void Fluid::LinearSolve(int b, float* x, float* x0, float a, float c) noexcept
 {
 	float cRecip = 1.0f / c;
 	for (int k = 0; k < ITERATIONS; k++)
@@ -100,7 +85,7 @@ void Fluid::LinearSolve(int b, float* x, float* x0, float a, float c)
 	}
 }
 
-void Fluid::SetBoundary(int b, float* x)
+__forceinline void Fluid::SetBoundary(int b, float* x) noexcept
 {
 
 	for (int i = 1; i < N - 1; i++)
@@ -121,7 +106,7 @@ void Fluid::SetBoundary(int b, float* x)
 
 }
 
-void Fluid::Project(float* velocX, float* velocY, float* p, float* div)
+__forceinline void Fluid::Project(float* velocX, float* velocY, float* p, float* div) noexcept
 {
 	for (int j = 1; j < N - 1; j++) {
 		for (int i = 1; i < N - 1; i++) {
@@ -152,8 +137,8 @@ void Fluid::Project(float* velocX, float* velocY, float* p, float* div)
 
 }
 
-void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, float dt)
-{
+__forceinline void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, float dt) noexcept
+{ 
 	float i0, i1, j0, j1;
 
 	float dtx = dt * (N - 2);
@@ -170,8 +155,10 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 	{
 		for (i = 1, ifloat = 1; i < N - 1; i++, ifloat++)
 		{
-			tmp1 = dtx * velocX[IX(i, j)];
-			tmp2 = dty * velocY[IX(i, j)];
+			int index = IX(i, j);
+
+			tmp1 = dtx * velocX[index];
+			tmp2 = dty * velocY[index];
 
 			x = ifloat - tmp1;
 			y = jfloat - tmp2;
@@ -197,7 +184,7 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 			int j0i = static_cast<int>(j0);
 			int j1i = static_cast<int>(j1);
 
-			d[IX(i, j)] =
+			d[index] =
 				s0 * (t0 * d0[IX(i0i, j0i)] + t1 * d0[IX(i0i, j1i)]) +
 				s1 * (t0 * d0[IX(i1i, j0i)] + t1 * d0[IX(i1i, j1i)]);
 
@@ -205,10 +192,6 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 	}
 	SetBoundary(b, d);
 }
-
-
-
-
 
 Fluid::~Fluid()
 {

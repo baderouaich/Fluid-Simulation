@@ -2,7 +2,10 @@
 Attempt to Simulate Fluid, using <strong>Lattice Boltzmann Method</strong>.
 
 ## Overview
-![](Demo.gif)
+![](Demos/Demo0.png)
+![](Demos/Demo1.png)
+![](Demos/Demo2.png)
+![](Demos/Demo.gif)
 
 
 # Functions Origin
