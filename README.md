@@ -7,6 +7,6 @@ Attempt to Simulate Fluid, using <strong>Lattice Boltzmann Method</strong>.
 ![](Demos/Demo.gif)
 
 
-# Functions Origin
+# Reference
 https://mikeash.com/pyblog/fluid-simulation-for-dummies.html
 
