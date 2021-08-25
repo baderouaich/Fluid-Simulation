@@ -12,7 +12,15 @@ constexpr const auto VSYNC = false;
 
 int main(void)
 {
-	std::unique_ptr<FluidSimulation> demo = std::make_unique<FluidSimulation>(
+	std::cout << "+============== Controls ==============+\n";
+	std::cout << "+ Press SPACE to change fluid color randomly\n";
+	std::cout << "+ Press Arrow Keys to apply fluid velocity and R to reset it\n";
+	std::cout << "+ Press ESCAPE to exit the simulation\n\n";
+	std::cout << "+ Press ENTER to start...\n";
+	std::cin.get();
+
+
+	const auto simula = std::make_unique<FluidSimulation>(
 			TITLE,
 			WINDOW_WIDTH,
 			WINDOW_HEIGHT,
@@ -21,7 +29,7 @@ int main(void)
 			FULL_SCREEN,
 			VSYNC);
 
-	demo->Start();
+	simula->Start();
 
 	return 0;
 }
