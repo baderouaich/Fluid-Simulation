@@ -1,4 +1,5 @@
 #include "Fluid.h"
+#include <cmath>	// std::floor
 
 Fluid::Fluid()
 	:
@@ -149,7 +150,7 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 	float s0, s1, t0, t1;
 	float tmp1, tmp2, x, y;
 
-	float Nfloat = N;
+	constexpr float Nfloat = static_cast<float>(N);
 	float ifloat, jfloat;
 	int i, j;
 
@@ -157,7 +158,7 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 	{
 		for (i = 1, ifloat = 1; i < N - 1; i++, ifloat++)
 		{
-			int index = IX(i, j);
+			const int index = IX(i, j);
 
 			tmp1 = dtx * velocX[index];
 			tmp2 = dty * velocY[index];
@@ -167,11 +168,11 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 
 			if (x < 0.5f) x = 0.5f;
 			if (x > Nfloat + 0.5f) x = Nfloat + 0.5f;
-			i0 = std::floorf(x);
+			i0 = std::floor(x);
 			i1 = i0 + 1.0f;
 			if (y < 0.5f) y = 0.5f;
 			if (y > Nfloat + 0.5f) y = Nfloat + 0.5f;
-			j0 = std::floorf(y);
+			j0 = std::floor(y);
 			j1 = j0 + 1.0f;
 
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Constants.h"
 #include "../Fluid/Fluid.h"
-#include <random>
+#include "../Utility/Random.hpp"
 
 
 class FluidSimulation final : public olc::PixelGameEngine
@@ -25,10 +25,13 @@ public:
 private:
 	olc::Pixel RandomColor() const noexcept
 	{
-		static std::random_device seed{};
-		static std::default_random_engine engine{ seed() };
-		std::uniform_int_distribution<int> dist(0, 255);
-		return olc::Pixel(static_cast<std::uint8_t>(dist(engine)), static_cast<std::uint8_t>(dist(engine)), static_cast<std::uint8_t>(dist(engine)), static_cast<std::uint8_t>(dist(engine)));
+		return olc::Pixel
+		{
+			static_cast<std::uint8_t>(Random::Int<std::uint16_t>(0, 255)),
+			static_cast<std::uint8_t>(Random::Int<std::uint16_t>(0, 255)),
+			static_cast<std::uint8_t>(Random::Int<std::uint16_t>(0, 255)),
+			static_cast<std::uint8_t>(Random::Int<std::uint16_t>(0, 255))
+		};
 	}
 
 
