@@ -61,14 +61,14 @@ public:
 	*	
 	*	This function also sets corners. This is done very simply, by setting each corner cell equal to the average of its three neighbors.
 	*/
-	 void SetBoundary(int b, float* x) noexcept;
+	void SetBoundary(int b, float* x) noexcept;
 
 	/**
 	*	This function is also somewhat mysterious as to exactly how it works,
 	*	but it does some more running through the dataand setting values,
 	*	with some calls to LinearSolve thrown in for fun.
 	*/
-	 void Project(float* velocX, float* velocY, float* p, float* div) noexcept;
+	void Project(float* velocX, float* velocY, float* p, float* div) noexcept;
 
 	/**
 	*	This function is responsible for actually moving things around.
@@ -78,7 +78,7 @@ public:
 	*	of the cells around the spot where it lands, then applies
 	*	that value to the current cell.
 	**/
-	 void Advect(int b, float* d, float* d0, float* velocX, float* velocY, float dt) noexcept;
+	void Advect(int b, float* d, float* d0, float* velocX, float* velocY, float dt) noexcept;
 
 private: // No stack over flow please OS!
 	 std::array<float, N * N> s;

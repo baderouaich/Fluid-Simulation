@@ -167,11 +167,11 @@ void Fluid::Advect(int b, float* d, float* d0, float* velocX, float* velocY, flo
 
 			if (x < 0.5f) x = 0.5f;
 			if (x > Nfloat + 0.5f) x = Nfloat + 0.5f;
-			i0 = floorf(x);
+			i0 = std::floorf(x);
 			i1 = i0 + 1.0f;
 			if (y < 0.5f) y = 0.5f;
 			if (y > Nfloat + 0.5f) y = Nfloat + 0.5f;
-			j0 = floorf(y);
+			j0 = std::floorf(y);
 			j1 = j0 + 1.0f;
 
 

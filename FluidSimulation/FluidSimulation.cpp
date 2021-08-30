@@ -1,15 +1,12 @@
 #include "FluidSimulation.h"
 #include "../Utility/Random.hpp"
 
-
 FluidSimulation::FluidSimulation(const std::string& title, int width, int height, int pixel_width, int pixel_height, bool full_screen, bool vsync)
 {
 	this->sAppName = title;
 	
-	this->Construct(width, height, pixel_width, pixel_height, full_screen, vsync);
+	 this->Construct(width, height, pixel_width, pixel_height, full_screen, vsync);
 }
-
-
 
 bool FluidSimulation::OnUserCreate()
 {
@@ -20,7 +17,6 @@ bool FluidSimulation::OnUserCreate()
 
 	return true;
 }
-
 
 bool FluidSimulation::OnUserInput(float fElapsedTime) noexcept
 {
@@ -77,14 +73,11 @@ bool FluidSimulation::OnUserInput(float fElapsedTime) noexcept
 		m_velocity_x = m_velocity_y = 0.0f;
 
 
-
-
-
-
 	// set previous mouse position
 	m_previous_mouse_pos = { mouseX, mouseY };
 	return true;
 }
+
 
 bool FluidSimulation::OnUserUpdate(float fElapsedTime)
 {
@@ -98,21 +91,20 @@ bool FluidSimulation::OnUserUpdate(float fElapsedTime)
 		{
 			const int x = i * SCALE;
 			const int y = j * SCALE;
-
-			// Get index from x,y coords
-			const int index = IX(i, j);
-
-			// Get Density 0 -> 255 alpha
-			const float density = m_fluid->density[index];
 			
+			// Get Density 0 -> 255 alpha (background color)
+			float& density = m_fluid->density[IX(i, j)];
+			
+			// Fix bug when color turn into black when adding too much density
+			density = std::clamp(density, 0.0f, 255.0f);
+
 			// Apply Fluid velocity
 			m_fluid->AddVelocity(x, y, m_velocity_x * fElapsedTime, m_velocity_y * fElapsedTime);
 
 			// Construct color based on density alpha
-			//olc::Pixel color{ m_fluid_color.r, m_fluid_color.g, m_fluid_color.b,  };
 			m_fluid_color.a = static_cast<std::uint8_t>(density);
 
-			// Draw drop
+			// Draw pixel
 			FillRect(x, y, SCALE, SCALE, m_fluid_color);
 		}
 	}
@@ -123,7 +115,6 @@ bool FluidSimulation::OnUserUpdate(float fElapsedTime)
 
 	return this->OnUserInput(fElapsedTime); // Handle user input & check for escape press to exit
 }
-
 
 
 bool FluidSimulation::OnUserDestroy()

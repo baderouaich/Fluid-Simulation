@@ -8,8 +8,6 @@
 
 namespace
 {
-	static constexpr const float PI = 3.14159265358979323846f;
-
 	static constexpr const int SCALE = 3;
 	static constexpr const int N = 160;
 	static constexpr const int ITERATIONS = 16;
