@@ -4,7 +4,6 @@ Attempt to Simulate Fluid, using <strong>Lattice Boltzmann Method</strong> and t
 ## Overview
 ![](Demo.gif)
 
-
 # Reference
 https://mikeash.com/pyblog/fluid-simulation-for-dummies.html
 
