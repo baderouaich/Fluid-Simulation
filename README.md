@@ -1,10 +1,21 @@
-﻿# Fluid Simulation
+﻿﻿# Fluid Simulation
 Attempt to Simulate Fluid, using <strong>Lattice Boltzmann Method</strong> and the <strong>olc::PixelGameEngine</strong>.
 
 ## Overview
-![](Demo.gif)
+https://github.com/user-attachments/assets/8702a958-ca6d-4be8-b236-d518cc9f7d30
 
-# Reference
+## Build & Run
+```sh
+git clone https://github.com/baderouaich/Fluid-Simulation
+cd Fluid-Simulation
+mkdir build && cd build
+cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+make -j8
+./fluid_simulation
+```
+
+
+## Reference
 https://mikeash.com/pyblog/fluid-simulation-for-dummies.html
 
 
