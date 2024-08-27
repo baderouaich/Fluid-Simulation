@@ -1,4 +1,5 @@
-﻿﻿# Fluid Simulation
+# Fluid Simulation
+  
 Attempt to Simulate Fluid, using <strong>Lattice Boltzmann Method</strong> and the <strong>olc::PixelGameEngine</strong>.
 
 ## Overview
