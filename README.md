@@ -14,6 +14,12 @@ cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
 make -j8
 ./fluid_simulation
 ```
+#### Controls
+- **Mouse** movement to apply velocity
+- **SPACE** key to change fluid color randomly
+- **Arrow** Keys to apply fluid velocity
+- **R** to reset the velocity to default
+- **ESCAPE** key to exit the simulation
 
 
 ## Reference
